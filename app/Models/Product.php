@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class Product extends Model
+{
+    use HasFactory;
+    protected $fillable = [
+        'name',
+        'description',
+        'price',
+        'stock',
+    ];
+
+    public function incoming()
+    {
+        return $this->belongsTo(Incoming::class);
+    }
+
+    public function expenses()
+    {
+        return $this->belongsToMany(Expense::class);
+    }
+}
