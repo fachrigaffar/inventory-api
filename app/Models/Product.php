@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Incoming;
+use App\Models\Expense;
 
 class Product extends Model
 {
@@ -12,16 +14,16 @@ class Product extends Model
         'name',
         'description',
         'price',
-        'stock',
+        'stock'
     ];
 
     public function incoming()
     {
-        return $this->belongsTo(Incoming::class);
+        return $this->hasMany(Incoming::class);
     }
 
     public function expenses()
     {
-        return $this->belongsToMany(Expense::class);
+        return $this->hasMany(Expense::class);
     }
 }

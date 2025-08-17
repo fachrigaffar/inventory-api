@@ -12,7 +12,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return response()->json(Product::all());
+        return response()->json(Product::with(['incoming', 'expenses'])->get());
     }
 
     /**
@@ -23,7 +23,7 @@ class ProductController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:100',
             'description' => 'nullable|string|max:255',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|decimal:0,2|min:0',
             'stock' => 'required|integer|min:0',
         ]);
 
@@ -51,7 +51,7 @@ class ProductController extends Controller
         $data = $request->validate([
             'name' => 'sometimes|required|string|max:100',
             'description' => 'nullable|string|max:255',
-            'price' => 'sometimes|required|numeric|min:0',
+            'price' => 'sometimes|required|decimal:0,2|min:0',
             'stock' => 'sometimes|required|integer|min:0',
         ]);
 

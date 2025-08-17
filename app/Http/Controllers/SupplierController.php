@@ -29,7 +29,7 @@ class SupplierController extends Controller
 
         $supplier = Supplier::create($data);
 
-        return response()->json(Supplier::create($supplier), 201);
+        return response()->json($supplier, 201);
     }
 
     /**
