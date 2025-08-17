@@ -12,7 +12,7 @@ class IncomingController extends Controller
      */
     public function index()
     {
-        return Incoming::all();
+        return response()->json(Incoming::with(['supplier', 'product'])->get());
     }
 
     /**
@@ -27,7 +27,8 @@ class IncomingController extends Controller
             'purchase_price' => 'required|numeric|min:0',
             'date_in' => 'required|date',
         ]);
-        return Incoming::create($data);
+        $incoming = Incoming::create($data);
+        return response()->json($incoming, 201);
     }
 
     /**
@@ -63,6 +64,8 @@ class IncomingController extends Controller
     {
         $incoming = Incoming::findOrFail($id);
         $incoming->delete();
-        return response()->json(['message' => 'Incoming record deleted successfully']);
+        return response()->json([
+            'message' => 'Incoming record deleted successfully'
+        ], 204);
     }
 }

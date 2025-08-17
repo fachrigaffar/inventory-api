@@ -12,7 +12,7 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        return Expense::all();
+        return response()->json(Expense::with(['customer', 'product'])->get());
     }
 
     /**
@@ -27,7 +27,8 @@ class ExpenseController extends Controller
             'selling_price' => 'required|numeric|min:0',
             'date_out' => 'required|date',
         ]);
-        return Expense::create($data);
+        $expense = Expense::create($data);
+        return response()->json($expense, 201);
     }
 
     /**
@@ -63,6 +64,9 @@ class ExpenseController extends Controller
     {
         $expense = Expense::findOrFail($id);
         $expense->delete();
-        return response()->json(['message' => 'Expense deleted successfully']);
+        
+        return response()->json([
+            'message' => 'Expense deleted successfully'
+        ], 204);
     }
 }

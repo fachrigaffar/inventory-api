@@ -12,7 +12,7 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        return Supplier::all();
+        return response()->json(Supplier::all());
     }
 
     /**
@@ -26,7 +26,10 @@ class SupplierController extends Controller
             'phone' => 'nullable|string|max:15',
             'address' => 'nullable|string|max:255',
         ]);
-        return Supplier::create($data);
+
+        $supplier = Supplier::create($data);
+
+        return response()->json(Supplier::create($supplier), 201);
     }
 
     /**
@@ -44,6 +47,7 @@ class SupplierController extends Controller
     public function update(Request $request, string $id)
     {
         $supplier = Supplier::findOrFail($id);
+
         $data = $request->validate([
             'name' => 'sometimes|required|string|max:100',
             'email' => 'sometimes|required|string|email|max:255|unique:suppliers,email,' . $supplier->id,
@@ -51,6 +55,7 @@ class SupplierController extends Controller
             'address' => 'nullable|string|max:255',
         ]);
         $supplier->update($data);
+
         return response()->json($supplier);
     }
 
@@ -61,6 +66,9 @@ class SupplierController extends Controller
     {
         $supplier = Supplier::findOrFail($id);
         $supplier->delete();
-        return response()->json(['message' => 'Supplier deleted successfully'], 204);
+
+        return response()->json([
+            'message' => 'Supplier deleted successfully'
+        ], 204);
     }
 }

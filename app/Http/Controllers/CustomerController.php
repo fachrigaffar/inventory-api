@@ -12,7 +12,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        return Customer::all();
+        return response()->json(Customer::all());
     }
 
     /**
@@ -26,7 +26,8 @@ class CustomerController extends Controller
             'phone' => 'nullable|string|max:15',
             'address' => 'nullable|string|max:255',
         ]);
-        return Customer::create($data);
+        $customer = Customer::create($data);
+        return response()->json($customer, 201);
     }
 
     /**
@@ -61,6 +62,8 @@ class CustomerController extends Controller
     {
         $customer = Customer::findOrFail($id);
         $customer->delete();
-        return response()->json(['message' => 'Customer deleted successfully'], 204);
+        return response()->json([
+            'message' => 'Customer deleted successfully'
+        ], 204);
     }
 }
